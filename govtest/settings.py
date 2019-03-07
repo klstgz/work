@@ -104,7 +104,8 @@ ROBOTSTXT_OBEY = False
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
 # 'govtest.pipelines.MySQLPipeline': 400
-'govtest.pipelines.GovtestPipeline': 400
+'govtest.pipelines.GovtestPipeline': 400,
+'govtest.pipelines.DuplicatesPipeline': 300
 }
 # MYSQL_DB_NAME = 'gov'
 # MYSQL_HOST = 'localhost'
