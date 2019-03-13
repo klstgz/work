@@ -37,17 +37,29 @@ class GovSpider(scrapy.Spider):
             yield scrapy.Request(url, callback=self.parse_a)
     # 爬虫2
     def parse_a(self, response):
+
+        next1 = response.xpath('//p/img/@src').extract()
+        img_list = []
+        for next in next1:
+            next_url = response.urljoin(next)
+            img_list.append(next_url)
+
+
         url = response.url
         time = response.xpath('normalize-space(//div[@class="pages-date"]/text())').extract_first()
-        title_list = response.xpath('normalize-space(//h1/text())').extract()
+        title_list = response.xpath('//h1/text()').extract()
         text_list = response.xpath('//body//p/text()').extract()
+
         title = ''.join(title_list)
         text = '\n'.join(text_list)
+        image = '##'.join(img_list)
         # 传递
         item = GovtestItem()
         item['url'] = url
         item['time'] = time
         item['title'] = title
         item['text'] = text
+        item['image']=image
         print('--' * 20)
+        print image
         yield item

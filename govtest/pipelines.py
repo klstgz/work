@@ -21,7 +21,7 @@ class GovtestPipeline(object):
 
     def process_item(self, item, spider):
         # 往数据库里面写入数据
-        sql = """insert into guowuyuan values ("{}","{}","{}","{}")""".format(item['url'],item['title'],item['time'],item['text'])
+        sql = """insert into gwy values ("{}","{}","{}","{}","{}")""".format(item['url'],item['title'],item['time'],item['image'],item['text'])
         self.cursor.execute(sql)
         self.connect.commit()
         return item
@@ -40,7 +40,7 @@ class DuplicatesPipeline(object):
     def __init__(self):
         redis_db.flushdb() #删除全部key，保证key为0，不然多次运行时候hlen不等于0，刚开始这里调试的时候经常出错。
         if redis_db.hlen(redis_data_dict) == 0: #
-            sql = "SELECT url FROM guowuyuan;"  #从你的MySQL里提数据，我这里取url来去重。
+            sql = "SELECT url FROM gwy;"  #从你的MySQL里提数据，我这里取url来去重。
             df = pd.read_sql(sql, self.conn) #读MySQL数据
             for url in df['url'].get_values(): #把每一条的值写入key的字段里
                 redis_db.hset(redis_data_dict, url, 0) #把key字段的值都设为0，你要设成什么都可以，因为后面对比的是字段，而不是值。

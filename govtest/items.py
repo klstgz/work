@@ -14,4 +14,5 @@ class GovtestItem(scrapy.Item):
     time = scrapy.Field()
     title = scrapy.Field()
     text = scrapy.Field()
+    image = scrapy.Field()
     pass
